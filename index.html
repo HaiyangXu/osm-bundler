@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="osm-bundler : A Python routine for running  Structure From Motion pipeline with Bundler and dense reconstruction with PMVS(CMVS) to reconstruct 3D geometry from a set of photos.  " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>osm-bundler</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/HaiyangXu/osm-bundler">View on GitHub</a>
+
+          <h1 id="project_title">osm-bundler</h1>
+          <h2 id="project_tagline">A Python routine for running  Structure From Motion pipeline with Bundler and dense reconstruction with PMVS(CMVS) to reconstruct 3D geometry from a set of photos.  </h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/HaiyangXu/osm-bundler/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/HaiyangXu/osm-bundler/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><strong>Introduction</strong></p>
+
+<p>This is a Python routine for running Bundler and PMVS(CMVS). Which was origin from <a href="https://code.google.com/p/osm-bundler/">https://code.google.com/p/osm-bundler/</a>. This routine facility the  Structure From Motion procedure with Bundler and Prepare the required data structure for running PMVS, which is a opensource dense reconstruction software.</p>
+
+<p><strong>Usage</strong></p>
+
+<p>You are supposed to put the requred software in the <em>software</em> directory , </p>
+
+<ul>
+<li>bundler</li>
+<li>pmvs</li>
+<li>sift-lowe (or vlfeat)</li>
+</ul><p>the structure may like below:</p>
+
+<pre><code>software
+----bundler
+        Bundle2Ply   
+        Bundle2Vis  
+        KeyMatchFull    
+        RadialUndistort
+        Bundle2PMVS  
+        bundler     
+        libANN_char.so
+
+----pmvs
+        cmvs  
+        genOption  
+        pmvs2
+
+----sift-lowe
+        sift
+</code></pre>
+
+<p><strong>Note for Linux</strong></p>
+
+<p>remember to set <code>LD_LIBRARY_PATH</code> to <code>libANN_char.so</code> ,otherwise KeyMatchFull may not find the library and crash</p>
+
+<p>Run this procedure:
+Perform point cloud and camera calibration :</p>
+
+<pre><code>$ RunBundler.py --photos="./examples/MyPhotos" 
+</code></pre>
+
+<p><strong>Note:</strong> The default output will be in the <em>output</em> directory in the root of the osm-bundler .
+You could test various option... </p>
+
+<pre><code>$ RunBundler.py
+</code></pre>
+
+<p>In a second step you could compute the dense 3D point cloud in one step if the dataset have a reasonable size.</p>
+
+<pre><code>$ RunPMVS.py --bundlerOutputPath="output of bundler" 
+</code></pre>
+
+<p><strong>Note:</strong> bundlerOutputPath shoud be the bundler output directory.</p>
+
+<p>If you have a lot of images, it better to use CMVS cluster computation.
+It performs dense 3D point could computation by using Cluster 3D representation of the scene :</p>
+
+<pre><code>$ RunCMVS.py --bundlerOutputPath="output of bundler" --ClusterToCompute ="Number of Desired Cluster".
+</code></pre>
+
+<p>Example :</p>
+
+<pre><code>$ RunCMVS.py --bundlerOutputPath="C:/temp/osm-Result" --ClusterToCompute ="10".
+</code></pre>
+
+<p><strong>Other reference</strong></p>
+
+<p>Bundler: <a href="http://www.cs.cornell.edu/%7Esnavely/bundler/">http://www.cs.cornell.edu/~snavely/bundler/</a><br>
+  PMVS2: <a href="http://grail.cs.washington.edu/software/pmvs/">http://grail.cs.washington.edu/software/pmvs/</a><br>
+   CMVS: <a href="http://grail.cs.washington.edu/software/cmvs/">http://grail.cs.washington.edu/software/cmvs/</a>  </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">osm-bundler maintained by <a href="https://github.com/HaiyangXu">HaiyangXu</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-36034060-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
