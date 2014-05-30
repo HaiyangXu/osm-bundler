@@ -82,8 +82,15 @@ class OsmBundler():
         # save current directory (i.e. from where RunBundler.py is called)
         self.currentDir = os.getcwd()
         # create a working directory
-        self.workDir = tempfile.mkdtemp(prefix="osm-bundler-",dir=os.getcwd() +'/output')
+        self.workDir = tempfile.mkdtemp(prefix="osm-bundler-",dir=os.path.join(os.getcwd() ,'output'))
         #self.workDir = os.getcwd() +'/output'
+        try:
+            os.mkdir('output')
+        except OSError :
+            if os.path.isdir(self.workDir):
+                pass
+            else: print "Cannot create output directory at "+ self.workDir
+            
         logging.info("Working directory created: "+self.workDir)
         
         if not (os.path.isdir(self.photosArg) or os.path.isfile(self.photosArg)):
@@ -365,7 +372,9 @@ class OsmBundler():
         sys.exit(2)
     
     def openResult(self):
-        if sys.platform == "win32": subprocess.call(["explorer", self.workDir])
+        if sys.platform == "win32": 
+            subprocess.call(["explorer", self.workDir])
+            print "See the results in the '%s' directory" % self.workDir
         else: print "See the results in the '%s' directory" % self.workDir
     
     def printHelp(self):
