@@ -1,7 +1,7 @@
 
 maxPhotoDimension = 1200
 matchingEngine = "bundler"
-featureExtractor = "siftlowe"    #"siftvlfeat"
+featureExtractor = "siftvlfeat"    #siftvlfeat  siftlowe
 
 bundlerOptions = (
 "--match_table matches.init.txt\n",
