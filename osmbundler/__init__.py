@@ -82,10 +82,11 @@ class OsmBundler():
         # save current directory (i.e. from where RunBundler.py is called)
         self.currentDir = os.getcwd()
         # create a working directory
-        self.workDir = tempfile.mkdtemp(prefix="osm-bundler-",dir=os.path.join(os.getcwd() ,'output'))
+        
         #self.workDir = os.getcwd() +'/output'
         try:
             os.mkdir('output')
+            self.workDir = tempfile.mkdtemp(prefix="osm-bundler-",dir=os.path.join(os.getcwd() ,'output'))
         except OSError :
             if os.path.isdir(self.workDir):
                 pass
